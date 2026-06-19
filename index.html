@@ -1,439 +1,599 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sadiq IPTV – شاهد كل شيء</title>
-  <meta name="description" content="تطبيق IPTV احترافي يدعم Windows وAndroid وiOS مع واجهة عربية أنيقة وتشغيل سلس للقنوات والأفلام والمسلسلات." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sadiq IPTV – شاهد كل شيء بما يرضي الله</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.12/hls.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --purple: #7C3AED;
-      --purple-light: #A855F7;
-      --purple-dark: #5B21B6;
-      --bg: #0A0A14;
-      --bg2: #12121F;
-      --bg3: #1A1A30;
-      --text: #F1F1F8;
-      --muted: #8888AA;
-      --border: #2A2A45;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --p:#7C3AED;--pl:#A855F7;--pd:#5B21B6;
+      --gold:#F59E0B;--goldl:#FCD34D;
+      --bg:#08080F;--bg2:#10101C;--bg3:#181828;
+      --text:#F1F1F8;--muted:#7777A0;--border:#22223A;
     }
-
-    body {
-      font-family: 'Cairo', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
 
     /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; width: 100%; z-index: 100;
-      background: rgba(10,10,20,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 48px;
-    }
-    .logo {
-      font-size: 22px; font-weight: 900;
-      background: linear-gradient(135deg, var(--purple-light), #60A5FA);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .nav-links { display: flex; gap: 32px; list-style: none; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .2s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-cta {
-      background: var(--purple); color: #fff; border: none; border-radius: 8px;
-      padding: 9px 22px; font-size: 14px; font-family: 'Cairo', sans-serif;
-      cursor: pointer; font-weight: 700; transition: background .2s;
-    }
-    .nav-cta:hover { background: var(--purple-dark); }
+    nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(8,8,15,.93);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:12px 40px;gap:16px}
+    .logo{font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--pl),#60A5FA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+    .nav-links{display:flex;gap:6px;flex-wrap:wrap}
+    .nav-a{color:var(--muted);font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;text-decoration:none;transition:.2s;white-space:nowrap}
+    .nav-a:hover{color:var(--text);background:rgba(255,255,255,.06)}
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 120px 24px 80px;
-      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 70%);
-    }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.4);
-      border-radius: 100px; padding: 6px 18px; font-size: 13px; color: var(--purple-light);
-      margin-bottom: 28px;
-    }
-    .hero-badge span { width: 8px; height: 8px; border-radius: 50%; background: var(--purple-light); animation: pulse 1.5s infinite; display: inline-block; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    /* ── SECTIONS ── */
+    section{padding:100px 24px 80px;max-width:900px;margin:0 auto}
+    .section-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center}
+    .section-title{font-size:clamp(24px,4vw,40px);font-weight:900;text-align:center;margin-bottom:8px}
+    .section-sub{font-size:15px;color:var(--muted);text-align:center;margin-bottom:48px;line-height:1.7}
+    hr.divider{border:none;border-top:1px solid var(--border);margin:0 auto;max-width:900px}
 
-    h1 {
-      font-size: clamp(36px, 6vw, 72px); font-weight: 900; line-height: 1.15;
-      margin-bottom: 20px;
+    /* ════════════════════
+       §1 QURAN
+    ════════════════════ */
+    #quran{padding-top:110px;background:radial-gradient(ellipse 90% 60% at 50% 0%,rgba(245,158,11,.1) 0%,transparent 65%)}
+    .quran-card{
+      background:linear-gradient(145deg,#0d0d1e,#1a0e2e);
+      border:1px solid rgba(245,158,11,.22);border-radius:24px;
+      padding:40px 36px;box-shadow:0 0 100px rgba(245,158,11,.07),0 24px 60px rgba(0,0,0,.6);
+      position:relative;overflow:hidden;
     }
-    h1 .grad {
-      background: linear-gradient(135deg, #A855F7 0%, #60A5FA 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .hero-sub {
-      font-size: clamp(15px, 2vw, 19px); color: var(--muted);
-      max-width: 560px; line-height: 1.7; margin-bottom: 40px;
-    }
-    .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
-    .btn-primary {
-      display: flex; align-items: center; gap: 10px;
-      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-      color: #fff; border-radius: 10px; padding: 14px 28px;
-      font-size: 15px; font-weight: 700; font-family: 'Cairo', sans-serif;
-      text-decoration: none; transition: transform .2s, box-shadow .2s;
-      box-shadow: 0 4px 24px rgba(124,58,237,0.35);
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,0.5); }
-    .btn-secondary {
-      display: flex; align-items: center; gap: 10px;
-      background: transparent; color: var(--text);
-      border: 1px solid var(--border); border-radius: 10px;
-      padding: 14px 28px; font-size: 15px; font-weight: 600;
-      font-family: 'Cairo', sans-serif; text-decoration: none;
-      transition: border-color .2s, background .2s;
-    }
-    .btn-secondary:hover { border-color: var(--purple-light); background: rgba(124,58,237,0.08); }
+    .quran-card::before{content:'';position:absolute;top:-80px;right:-80px;width:250px;height:250px;border-radius:50%;background:radial-gradient(circle,rgba(245,158,11,.12),transparent 70%);pointer-events:none}
+    .quran-card-head{display:flex;align-items:center;gap:18px;margin-bottom:30px}
+    .q-mosque{font-size:56px;animation:glow 2.5s ease-in-out infinite}
+    @keyframes glow{0%,100%{filter:drop-shadow(0 0 8px rgba(245,158,11,.5))}50%{filter:drop-shadow(0 0 26px rgba(245,158,11,1))}}
+    .q-head-text h2{font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--goldl),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .q-head-text p{font-size:13px;color:var(--muted);margin-top:4px}
+    #station-name{font-size:16px;font-weight:700;color:var(--goldl)}
+    #station-status{font-size:12px;color:var(--muted);margin-top:3px}
 
-    /* ── MOCKUP ── */
-    .mockup-wrap {
-      margin-top: 64px; width: 100%; max-width: 900px;
-      border-radius: 16px; overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.15);
-    }
-    .mockup-bar {
-      background: var(--bg3); padding: 10px 16px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .d-red { background: #FF5F57; } .d-yellow { background: #FFBD2E; } .d-green { background: #28C840; }
-    .mockup-screen {
-      background: var(--bg2); aspect-ratio: 16/9;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 16px; color: var(--muted); font-size: 14px;
-    }
-    .mockup-screen .play-icon {
-      width: 72px; height: 72px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-      display: flex; align-items: center; justify-content: center; font-size: 28px;
-      box-shadow: 0 8px 32px rgba(124,58,237,0.4);
-    }
+    .station-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:26px}
+    .st-btn{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:13px 15px;cursor:pointer;text-align:right;transition:.2s;font-family:'Cairo',sans-serif;width:100%}
+    .st-btn:hover{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.06)}
+    .st-btn.active{border-color:var(--gold);background:rgba(245,158,11,.1)}
+    .st-btn .sn{font-size:13px;font-weight:700;color:var(--text)}
+    .st-btn .sd{font-size:11px;color:var(--muted);margin-top:2px}
 
-    /* ── STATS ── */
-    .stats {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 40px;
-      padding: 40px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      background: var(--bg2);
-    }
-    .stat { text-align: center; }
-    .stat-num { font-size: 36px; font-weight: 900; color: var(--purple-light); }
-    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .q-prog-wrap{height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-bottom:24px;overflow:hidden}
+    .q-prog-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--goldl));border-radius:2px;width:0%;transition:width .4s}
 
-    /* ── FEATURES ── */
-    .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
-    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--purple-light); text-transform: uppercase; margin-bottom: 12px; }
-    .section-title { font-size: clamp(26px, 4vw, 40px); font-weight: 900; margin-bottom: 16px; }
-    .section-sub { color: var(--muted); font-size: 16px; max-width: 500px; line-height: 1.7; }
+    .q-controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:26px}
+    .qc-sm{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+    .qc-sm:hover{border-color:var(--gold);background:rgba(245,158,11,.1);color:var(--goldl)}
+    .qc-play{width:68px;height:68px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--gold),#d97706);color:#000;font-size:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 35px rgba(245,158,11,.55);transition:.2s}
+    .qc-play:hover{transform:scale(1.08);box-shadow:0 0 50px rgba(245,158,11,.8)}
 
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 48px; }
-    .feature-card {
-      background: var(--bg2); border: 1px solid var(--border); border-radius: 14px;
-      padding: 28px; transition: border-color .2s, transform .2s;
-    }
-    .feature-card:hover { border-color: rgba(124,58,237,0.5); transform: translateY(-4px); }
-    .feature-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: rgba(124,58,237,0.15); display: flex; align-items: center; justify-content: center;
-      font-size: 22px; margin-bottom: 16px;
-    }
-    .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
-    .feature-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .q-vol{display:flex;align-items:center;gap:10px;justify-content:center}
+    .q-vol span{font-size:14px;color:var(--muted)}
+    .q-vol input[type=range]{-webkit-appearance:none;width:160px;height:4px;background:rgba(255,255,255,.12);border-radius:2px;cursor:pointer}
+    .q-vol input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 8px rgba(245,158,11,.5)}
 
-    /* ── DOWNLOAD ── */
-    .download-section {
-      background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      padding: 80px 24px;
-    }
-    .download-inner { max-width: 1000px; margin: 0 auto; }
-    .platforms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 48px; }
-    .platform-card {
-      background: var(--bg3); border: 1px solid var(--border); border-radius: 14px;
-      padding: 28px 24px; text-align: center; transition: border-color .2s, transform .2s;
-    }
-    .platform-card:hover { border-color: rgba(124,58,237,0.5); transform: translateY(-4px); }
-    .platform-icon { font-size: 42px; margin-bottom: 12px; }
-    .platform-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-    .platform-card p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
-    .platform-card .status-badge {
-      display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700;
-    }
-    .badge-available { background: rgba(34,197,94,0.15); color: #4ADE80; border: 1px solid rgba(34,197,94,0.3); }
-    .badge-soon { background: rgba(234,179,8,0.15); color: #FACC15; border: 1px solid rgba(234,179,8,0.3); }
-    .download-btn {
-      display: block; margin-top: 16px;
-      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-      color: #fff; border-radius: 8px; padding: 11px 20px;
-      font-size: 14px; font-weight: 700; font-family: 'Cairo', sans-serif;
-      text-decoration: none; transition: opacity .2s;
-    }
-    .download-btn:hover { opacity: .85; }
-    .download-btn.disabled { background: var(--border); color: var(--muted); cursor: not-allowed; pointer-events: none; }
+    .sadaqa-box{text-align:center;margin-top:30px;padding:18px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:14px}
+    .sadaqa-box p{font-size:14px;color:rgba(245,158,11,.85);line-height:1.9}
+    .sadaqa-box strong{color:var(--gold)}
 
-    /* ── STEPS ── */
-    .steps { display: flex; flex-direction: column; gap: 20px; margin-top: 48px; }
-    .step { display: flex; gap: 20px; align-items: flex-start; }
-    .step-num {
-      min-width: 40px; height: 40px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 16px; flex-shrink: 0;
-    }
-    .step-content h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-    .step-content p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    /* ════════════════════
+       §2 IPTV
+    ════════════════════ */
+    #iptv{background:none}
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--bg); border-top: 1px solid var(--border);
-      padding: 40px 48px; display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px;
-    }
-    footer .logo { font-size: 18px; }
-    footer p { font-size: 13px; color: var(--muted); }
-    .footer-links { display: flex; gap: 24px; }
-    .footer-links a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color .2s; }
-    .footer-links a:hover { color: var(--text); }
+    /* Login */
+    .iptv-login-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:36px;box-shadow:0 24px 60px rgba(0,0,0,.5);max-width:500px;margin:0 auto}
+    .form-group{margin-bottom:15px}
+    .form-group label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px}
+    .form-group input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:11px 14px;font-size:14px;font-family:'Cairo',sans-serif;color:var(--text);transition:.2s;direction:ltr;text-align:left}
+    .form-group input:focus{outline:none;border-color:var(--pl);box-shadow:0 0 0 3px rgba(124,58,237,.2)}
+    .form-group input::placeholder{color:var(--muted)}
+    .conn-btn{width:100%;background:linear-gradient(135deg,var(--p),var(--pd));color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:700;font-family:'Cairo',sans-serif;cursor:pointer;transition:.2s;margin-top:6px}
+    .conn-btn:hover{opacity:.9;transform:translateY(-1px)}
+    .conn-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .conn-err{color:#f87171;font-size:13px;margin-top:8px;display:none;text-align:center}
+    .saved-wrap{margin-top:22px;border-top:1px solid var(--border);padding-top:18px;display:none}
+    .saved-wrap h4{font-size:13px;color:var(--muted);margin-bottom:10px}
+    .acc-pill{display:inline-flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 12px;margin:0 5px 6px 0;cursor:pointer;font-size:13px;font-family:'Cairo',sans-serif;color:var(--text);transition:.2s}
+    .acc-pill:hover{border-color:var(--pl);background:rgba(124,58,237,.1)}
+    .del-acc{color:var(--muted);font-size:16px;line-height:1}
+    .del-acc:hover{color:#f87171}
 
-    /* ── GLOW ── */
-    .glow-orb {
-      position: fixed; width: 600px; height: 600px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
-      pointer-events: none; z-index: 0; transition: all 0.8s ease;
-    }
+    /* Player */
+    #iptv-player{display:none}
+    .player-wrap{border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--bg2);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+    .player-top{background:var(--bg3);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+    .player-acc{font-size:13px;font-weight:700;color:var(--pl)}
+    .p-layout{display:grid;grid-template-columns:240px 1fr;height:520px}
+    .p-sidebar{display:flex;flex-direction:column;border-left:1px solid var(--border);overflow:hidden}
+    .p-sidebar-top{padding:10px;border-bottom:1px solid var(--border);flex-shrink:0}
+    .p-search{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:13px;font-family:'Cairo',sans-serif;color:var(--text)}
+    .p-search:focus{outline:none;border-color:var(--pl)}
+    .p-cats{display:flex;gap:5px;overflow-x:auto;padding:8px 10px;border-bottom:1px solid var(--border);flex-shrink:0;scrollbar-width:none}
+    .p-cats::-webkit-scrollbar{display:none}
+    .cat-btn{white-space:nowrap;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:11px;font-family:'Cairo',sans-serif;color:var(--muted);cursor:pointer;transition:.15s;flex-shrink:0}
+    .cat-btn.active{background:rgba(124,58,237,.2);border-color:var(--pl);color:var(--pl)}
+    .p-channels{flex:1;overflow-y:auto;padding:6px}
+    .p-channels::-webkit-scrollbar{width:4px}
+    .p-channels::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+    .ch-item{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:8px;cursor:pointer;transition:.15s}
+    .ch-item:hover{background:rgba(255,255,255,.05)}
+    .ch-item.active{background:rgba(124,58,237,.18)}
+    .ch-logo{width:36px;height:26px;border-radius:5px;object-fit:cover;background:var(--bg3);flex-shrink:0;border:1px solid var(--border)}
+    .ch-logo-ph{width:36px;height:26px;border-radius:5px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;border:1px solid var(--border)}
+    .ch-name{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+    .ch-live{font-size:9px;background:#ef4444;color:#fff;padding:1px 5px;border-radius:3px;flex-shrink:0}
+    .p-empty{text-align:center;padding:30px 10px;color:var(--muted);font-size:13px}
+    .p-main{background:#000;display:flex;flex-direction:column;overflow:hidden}
+    .p-video-wrap{flex:1;position:relative;background:#000}
+    #video-player{width:100%;height:100%;object-fit:contain}
+    .vid-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;background:rgba(0,0,0,.65)}
+    .vid-overlay.gone{display:none}
+    .vid-overlay span{font-size:40px}
+    .vid-overlay p{font-size:14px;color:var(--muted)}
+    .p-info{background:var(--bg3);border-top:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+    .p-ch-name{font-size:14px;font-weight:700}
+    .p-act-btn{background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:5px 12px;font-size:12px;font-family:'Cairo',sans-serif;color:var(--text);cursor:pointer;transition:.15s}
+    .p-act-btn:hover{border-color:var(--pl);color:var(--pl)}
+    .p-act-btn.red:hover{border-color:#f87171;color:#f87171}
 
-    @media (max-width: 600px) {
-      nav { padding: 12px 20px; }
-      .nav-links { display: none; }
-      footer { flex-direction: column; text-align: center; }
+    /* ════════════════════
+       §3 DOWNLOAD
+    ════════════════════ */
+    #download{background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(124,58,237,.08) 0%,transparent 70%)}
+    .dl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:48px}
+    .dl-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:26px 20px;text-align:center;transition:.2s}
+    .dl-card:hover{border-color:rgba(124,58,237,.4);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+    .dl-icon{font-size:40px;margin-bottom:12px}
+    .dl-card h3{font-size:17px;font-weight:700;margin-bottom:5px}
+    .dl-card p{font-size:12px;color:var(--muted);margin-bottom:14px}
+    .badge-ok{display:inline-block;padding:2px 10px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(34,197,94,.12);color:#4ADE80;border:1px solid rgba(34,197,94,.3)}
+    .badge-soon{display:inline-block;padding:2px 10px;border-radius:100px;font-size:11px;font-weight:700;background:rgba(234,179,8,.12);color:#FACC15;border:1px solid rgba(234,179,8,.3)}
+    .dl-btn{display:block;margin-top:12px;background:linear-gradient(135deg,var(--p),var(--pd));color:#fff;border-radius:8px;padding:10px;font-size:13px;font-weight:700;font-family:'Cairo',sans-serif;text-decoration:none;transition:.2s}
+    .dl-btn:hover{opacity:.85}
+    .dl-btn.dis{background:var(--border);color:var(--muted);pointer-events:none}
+
+    /* ════════════════════
+       §4 DUA BOX
+    ════════════════════ */
+    #dua{background:none;padding-top:0}
+    .dua-card{background:linear-gradient(145deg,#0d0d1e,#0e1420);border:1px solid rgba(124,58,237,.2);border-radius:20px;padding:36px;max-width:680px;margin:0 auto;box-shadow:0 0 80px rgba(124,58,237,.06)}
+    .dua-card .dua-intro{font-size:15px;color:var(--muted);text-align:center;margin-bottom:28px;line-height:1.8}
+    .dua-card .dua-intro strong{color:var(--text)}
+    .dua-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:14px;font-family:'Cairo',sans-serif;color:var(--text);resize:vertical;min-height:110px;transition:.2s;direction:rtl}
+    .dua-textarea:focus{outline:none;border-color:var(--pl);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+    .dua-textarea::placeholder{color:var(--muted)}
+    .dua-send-btn{margin-top:12px;width:100%;background:linear-gradient(135deg,var(--p),var(--pd));color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:700;font-family:'Cairo',sans-serif;cursor:pointer;transition:.2s}
+    .dua-send-btn:hover{opacity:.9;transform:translateY(-1px)}
+    .dua-list{margin-top:28px;display:flex;flex-direction:column;gap:12px;max-height:340px;overflow-y:auto}
+    .dua-list::-webkit-scrollbar{width:4px}
+    .dua-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+    .dua-item{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 16px;position:relative}
+    .dua-item p{font-size:14px;line-height:1.7;color:var(--text)}
+    .dua-item .dua-time{font-size:11px;color:var(--muted);margin-top:6px}
+    .dua-item .dua-del{position:absolute;top:10px;left:12px;background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1}
+    .dua-item .dua-del:hover{color:#f87171}
+    .dua-thankyou{display:none;text-align:center;padding:20px;color:var(--goldl);font-size:16px;font-weight:700}
+
+    /* ════════════════════
+       FOOTER
+    ════════════════════ */
+    footer{text-align:center;padding:40px 24px;border-top:1px solid var(--border);color:var(--muted);font-size:13px;line-height:1.8}
+    footer strong{color:var(--text)}
+    footer a{color:var(--pl);text-decoration:none}
+    footer a:hover{text-decoration:underline}
+
+    /* misc */
+    @media(max-width:700px){
+      nav{padding:10px 16px}
+      .nav-a span{display:none}
+      .p-layout{grid-template-columns:1fr;height:auto}
+      .p-sidebar{height:220px}
+      .station-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
 
-<!-- Moving glow -->
-<div class="glow-orb" id="glow"></div>
-
 <!-- NAV -->
 <nav>
   <div class="logo">⚡ Sadiq IPTV</div>
-  <ul class="nav-links">
-    <li><a href="#features">المميزات</a></li>
-    <li><a href="#download">التحميل</a></li>
-    <li><a href="#setup">الإعداد</a></li>
-    <li><a href="https://github.com/sdqjrd/sadiq-iptv" target="_blank">GitHub</a></li>
-  </ul>
-  <a href="#download" class="nav-cta">حمّل الآن</a>
+  <div class="nav-links">
+    <a class="nav-a" href="#quran">🕌 <span>القرآن</span></a>
+    <a class="nav-a" href="#iptv">📺 <span>IPTV</span></a>
+    <a class="nav-a" href="#download">⬇️ <span>التحميل</span></a>
+    <a class="nav-a" href="#dua">🤲 <span>دعوة</span></a>
+  </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-badge">
-    <span></span>
-    متاح الآن على جميع المنصات
-  </div>
-  <h1>
-    شاهد كل شيء<br/>
-    <span class="grad">بجودة لا تُضاهى</span>
-  </h1>
-  <p class="hero-sub">
-    تطبيق IPTV احترافي بواجهة عربية أنيقة — قنوات بث مباشر، أفلام، مسلسلات،
-    مع دعم حسابات متعددة وتشغيل سلس على جميع الأجهزة.
-  </p>
-  <div class="hero-btns">
-    <a href="#download" class="btn-primary">
-      ⬇️ تحميل مجاني
-    </a>
-    <a href="https://github.com/sdqjrd/sadiq-iptv" target="_blank" class="btn-secondary">
-      ⭐ GitHub
-    </a>
-  </div>
+<!-- ══════════════════════════════════
+     §1 – القرآن الكريم
+══════════════════════════════════ -->
+<section id="quran">
+  <div class="section-label">صدقة جارية</div>
+  <h2 class="section-title" style="background:linear-gradient(135deg,#FCD34D,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent">القرآن الكريم</h2>
+  <p class="section-sub">﴿ وَإِذَا قُرِئَ الْقُرْآنُ فَاسْتَمِعُوا لَهُ وَأَنصِتُوا لَعَلَّكُمْ تُرْحَمُونَ ﴾</p>
 
-  <div class="mockup-wrap">
-    <div class="mockup-bar">
-      <div class="dot d-red"></div>
-      <div class="dot d-yellow"></div>
-      <div class="dot d-green"></div>
-      <div style="margin-right:auto;font-size:12px;color:#555">Sadiq IPTV — بث مباشر</div>
+  <div class="quran-card">
+    <div class="quran-card-head">
+      <div class="q-mosque">🕌</div>
+      <div class="q-head-text">
+        <h2>إذاعة القرآن الكريم</h2>
+        <div id="station-name">إذاعة القرآن الكريم – مكة المكرمة</div>
+        <div id="station-status">اضغط ▶ للتشغيل</div>
+      </div>
     </div>
-    <div class="mockup-screen">
-      <div class="play-icon">▶</div>
-      <p>واجهة تطبيق احترافية مع مشغّل متكامل</p>
+
+    <div class="station-grid">
+      <button class="st-btn active" onclick="selectSt(0,this)">
+        <div class="sn">🕋 مكة المكرمة</div>
+        <div class="sd">إذاعة القرآن الكريم</div>
+      </button>
+      <button class="st-btn" onclick="selectSt(1,this)">
+        <div class="sn">🌙 المدينة المنورة</div>
+        <div class="sd">إذاعة نور القرآن</div>
+      </button>
+      <button class="st-btn" onclick="selectSt(2,this)">
+        <div class="sn">🎙️ عبد الباسط</div>
+        <div class="sd">تلاوة مجوّدة</div>
+      </button>
+      <button class="st-btn" onclick="selectSt(3,this)">
+        <div class="sn">📻 مصر القرآن</div>
+        <div class="sd">إذاعة القرآن الكريم</div>
+      </button>
+    </div>
+
+    <div class="q-prog-wrap"><div class="q-prog-bar" id="q-prog"></div></div>
+
+    <div class="q-controls">
+      <button class="qc-sm" onclick="prevSt()">⏮</button>
+      <button class="qc-play" id="qc-play" onclick="toggleQ()">▶</button>
+      <button class="qc-sm" onclick="nextSt()">⏭</button>
+    </div>
+
+    <div class="q-vol">
+      <span>🔇</span>
+      <input type="range" min="0" max="1" step="0.05" value="0.85" oninput="qAudio.volume=+this.value"/>
+      <span>🔊</span>
+    </div>
+
+    <div class="sadaqa-box">
+      <p>🤲 <strong>صدقة جارية</strong> لصاحب الموقع وأهله وذريته<br/>
+      اللهم تقبّل منّا وبارك وأجزل المثوبة في الدنيا والآخرة 🤍</p>
     </div>
   </div>
 </section>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stat"><div class="stat-num">4</div><div class="stat-label">منصات مدعومة</div></div>
-  <div class="stat"><div class="stat-num">∞</div><div class="stat-label">قنوات وأفلام</div></div>
-  <div class="stat"><div class="stat-num">4K</div><div class="stat-label">جودة تشغيل</div></div>
-  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">مجاني ومفتوح المصدر</div></div>
-</div>
+<hr class="divider"/>
 
-<!-- FEATURES -->
-<div id="features">
-  <div class="section">
-    <div class="section-label">المميزات</div>
-    <h2 class="section-title">كل ما تحتاجه في مكان واحد</h2>
-    <p class="section-sub">مُصمَّم للمستخدم العربي مع واجهة RTL احترافية وأداء عالٍ.</p>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">📺</div>
-        <h3>بث مباشر HD</h3>
-        <p>تشغيل آلاف القنوات بجودة عالية مع دعم HLS وMPEG-TS.</p>
+<!-- ══════════════════════════════════
+     §2 – مشغّل IPTV
+══════════════════════════════════ -->
+<section id="iptv">
+  <div class="section-label">بث مباشر</div>
+  <h2 class="section-title">مشغّل IPTV</h2>
+  <p class="section-sub">أدخل بيانات حساب Xtream Codes الخاص بك وشاهد مباشرة من المتصفح</p>
+
+  <!-- Login -->
+  <div id="iptv-login">
+    <div class="iptv-login-card">
+      <div class="form-group">
+        <label>رابط السيرفر</label>
+        <input type="text" id="inp-url" placeholder="http://server.com:8080"/>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎬</div>
-        <h3>أفلام ومسلسلات</h3>
-        <p>مكتبة ترفيهية ضخمة منظّمة بحسب التصنيف مع صور الغلاف والتفاصيل.</p>
+      <div class="form-group">
+        <label>اسم المستخدم</label>
+        <input type="text" id="inp-user" placeholder="username"/>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">👥</div>
-        <h3>حسابات متعددة</h3>
-        <p>احفظ أكثر من حساب Xtream وانتقل بينها بنقرة واحدة.</p>
+      <div class="form-group">
+        <label>كلمة المرور</label>
+        <input type="password" id="inp-pass" placeholder="password"/>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">⭐</div>
-        <h3>المفضلة والسجل</h3>
-        <p>أضف قنواتك وأفلامك المفضلة وتتبّع سجل المشاهدة بسهولة.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <h3>بحث سريع</h3>
-        <p>ابحث عن أي قناة أو فيلم أو مسلسل في ثوانٍ.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⌨️</div>
-        <h3>اختصارات لوحة المفاتيح</h3>
-        <p>تحكّم كامل بالمشغّل من لوحة المفاتيح: مسافة، أسهم، ESC.</p>
+      <button class="conn-btn" id="conn-btn" onclick="connectServer()">اتصال ←</button>
+      <div class="conn-err" id="conn-err"></div>
+
+      <div class="saved-wrap" id="saved-wrap">
+        <h4>الحسابات المحفوظة</h4>
+        <div id="saved-list"></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- DOWNLOAD -->
-<div class="download-section" id="download">
-  <div class="download-inner">
-    <div class="section-label">التحميل</div>
-    <h2 class="section-title">اختر منصتك</h2>
-    <p class="section-sub">نسخة محسّنة لكل نظام تشغيل.</p>
-    <div class="platforms-grid">
-      <div class="platform-card">
-        <div class="platform-icon">🖥️</div>
-        <h3>Windows</h3>
-        <p>Windows 10/11 (64-bit)</p>
-        <span class="status-badge badge-available">✓ متاح</span>
-        <a href="https://github.com/sdqjrd/sadiq-iptv/releases/download/v1.0.0/SadiqIPTV_Setup.exe" class="download-btn">⬇️ تحميل .exe</a>
+  <!-- Player -->
+  <div id="iptv-player">
+    <div class="player-wrap">
+      <div class="player-top">
+        <span class="player-acc" id="p-acc-name"></span>
+        <button class="p-act-btn red" onclick="disconnectServer()">× خروج</button>
       </div>
-      <div class="platform-card">
-        <div class="platform-icon">🤖</div>
-        <h3>Android</h3>
-        <p>Android 6.0 أو أحدث</p>
-        <span class="status-badge badge-available">✓ متاح</span>
-        <a href="https://github.com/sdqjrd/sadiq-iptv/releases/latest/download/sadiq_iptv.apk" class="download-btn">⬇️ تحميل APK</a>
-      </div>
-      <div class="platform-card">
-        <div class="platform-icon">🍎</div>
-        <h3>iOS / iPhone</h3>
-        <p>iOS 13 أو أحدث</p>
-        <span class="status-badge badge-soon">🔜 قريباً</span>
-        <a href="#" class="download-btn disabled">قريباً على TestFlight</a>
-      </div>
-      <div class="platform-card">
-        <div class="platform-icon">🐧</div>
-        <h3>Linux</h3>
-        <p>Ubuntu / Debian</p>
-        <span class="status-badge badge-soon">🔜 قريباً</span>
-        <a href="#" class="download-btn disabled">قريباً</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SETUP -->
-<div id="setup">
-  <div class="section">
-    <div class="section-label">الإعداد</div>
-    <h2 class="section-title">ابدأ خلال دقيقتين</h2>
-    <p class="section-sub">ثلاث خطوات بسيطة وتبدأ المشاهدة فوراً.</p>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>حمّل التطبيق</h4>
-          <p>اختر نسخة منصتك من القسم أعلاه وحمّل الملف المناسب.</p>
+      <div class="p-layout">
+        <!-- Sidebar -->
+        <div class="p-sidebar">
+          <div class="p-sidebar-top">
+            <input class="p-search" type="text" placeholder="🔍 بحث..." oninput="filterChs(this.value)"/>
+          </div>
+          <div class="p-cats" id="p-cats"></div>
+          <div class="p-channels" id="p-channels">
+            <div class="p-empty">⏳ جاري التحميل…</div>
+          </div>
         </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>أدخل بيانات Xtream</h4>
-          <p>أدخل رابط الخادم واسم المستخدم وكلمة المرور من مزوّد الخدمة الخاص بك.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>استمتع بالمشاهدة!</h4>
-          <p>تصفّح القنوات والأفلام والمسلسلات واستمتع بتجربة مشاهدة لا مثيل لها.</p>
+        <!-- Video -->
+        <div class="p-main">
+          <div class="p-video-wrap">
+            <video id="video-player" controls playsinline></video>
+            <div class="vid-overlay" id="vid-overlay">
+              <span>📺</span>
+              <p>اختر قناة للمشاهدة</p>
+            </div>
+          </div>
+          <div class="p-info">
+            <span class="p-ch-name" id="p-ch-name">—</span>
+            <button class="p-act-btn" onclick="toggleFS()">⛶ ملء الشاشة</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- FOOTER -->
+<hr class="divider"/>
+
+<!-- ══════════════════════════════════
+     §3 – التحميل
+══════════════════════════════════ -->
+<section id="download">
+  <div class="section-label">التطبيق</div>
+  <h2 class="section-title">حمّل التطبيق</h2>
+  <p class="section-sub">نسخة مُحسَّنة لكل منصة مع واجهة عربية كاملة</p>
+
+  <div class="dl-grid">
+    <div class="dl-card">
+      <div class="dl-icon">🖥️</div>
+      <h3>Windows</h3>
+      <p>Windows 10 / 11 (64-bit)</p>
+      <span class="badge-ok">✓ متاح</span>
+      <a href="https://github.com/sdqjrd/sadiq-iptv/releases/download/v1.0.0/SadiqIPTV_Setup.exe" class="dl-btn">⬇️ تحميل EXE</a>
+    </div>
+    <div class="dl-card">
+      <div class="dl-icon">🤖</div>
+      <h3>Android</h3>
+      <p>Android 6.0+</p>
+      <span class="badge-ok">✓ متاح</span>
+      <a href="https://github.com/sdqjrd/sadiq-iptv/releases/download/v1.0.0/SadiqIPTV.apk" class="dl-btn">⬇️ تحميل APK</a>
+    </div>
+    <div class="dl-card">
+      <div class="dl-icon">📱</div>
+      <h3>iOS</h3>
+      <p>iPhone / iPad</p>
+      <span class="badge-soon">📦 قريباً</span>
+      <a href="#" class="dl-btn dis">قريباً</a>
+    </div>
+    <div class="dl-card">
+      <div class="dl-icon">🐧</div>
+      <h3>Linux</h3>
+      <p>Ubuntu / Debian</p>
+      <span class="badge-soon">📦 قريباً</span>
+      <a href="#" class="dl-btn dis">قريباً</a>
+    </div>
+  </div>
+
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:28px;max-width:600px;margin:0 auto">
+    <p style="text-align:center;font-size:15px;font-weight:700;margin-bottom:18px">📋 خطوات الإعداد</p>
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="min-width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pd));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0">1</div>
+        <div><strong>حمّل التطبيق</strong><br/><span style="color:var(--muted);font-size:13px">اختر النسخة المناسبة لجهازك وثبّتها.</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="min-width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pd));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0">2</div>
+        <div><strong>أدخل بيانات Xtream</strong><br/><span style="color:var(--muted);font-size:13px">رابط السيرفر، اسم المستخدم، كلمة المرور.</span></div>
+      </div>
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="min-width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pd));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;flex-shrink:0">3</div>
+        <div><strong>استمتع بالمشاهدة 🎉</strong><br/><span style="color:var(--muted);font-size:13px">آلاف القنوات والأفلام والمسلسلات — بما يرضي الله.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- ══════════════════════════════════
+     §4 – اترك دعوة
+══════════════════════════════════ -->
+<section id="dua" style="padding-bottom:60px">
+  <div class="section-label">مشاركة الخير</div>
+  <h2 class="section-title">🤲 اترك دعوة جميلة</h2>
+  <p class="section-sub">شارك دعوة أو كلمة طيبة — الكلمة الطيبة صدقة،<br/>
+  واستخدام هذا التطبيق بما يرضي الله نعمة نشكر الله عليها</p>
+
+  <div class="dua-card">
+    <div class="dua-intro">
+      <strong>اترك أثراً طيباً 🌸</strong><br/>
+      اكتب دعوة أو ذكراً أو كلمة خير تنفع إخوانك الزوار،<br/>
+      فمن دلّ على الخير فله مثل أجر فاعله 🤍
+    </div>
+
+    <textarea class="dua-textarea" id="dua-input" placeholder="اكتب دعوتك هنا… مثال: اللهم اجعلنا ممن يستخدم النعم فيما يرضيك ويكون ذلك صدقة جارية لنا ولأهلنا 🤲"></textarea>
+    <button class="dua-send-btn" onclick="sendDua()">📨 أرسل دعوتك</button>
+    <div class="dua-thankyou" id="dua-ty">جزاك الله خيراً 🌟 دعوتك ظاهرة للجميع الآن</div>
+
+    <div class="dua-list" id="dua-list"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER
+══════════════════════════════════ -->
 <footer>
-  <div class="logo">⚡ Sadiq IPTV</div>
-  <p>© 2025 Sadiq IPTV. مفتوح المصدر تحت رخصة MIT.</p>
-  <div class="footer-links">
-    <a href="https://github.com/sdqjrd/sadiq-iptv" target="_blank">GitHub</a>
-    <a href="https://github.com/sdqjrd/sadiq-iptv/releases" target="_blank">الإصدارات</a>
-    <a href="https://github.com/sdqjrd/sadiq-iptv/issues" target="_blank">الإبلاغ عن مشكلة</a>
-  </div>
+  <p style="margin-bottom:8px">
+    <strong>Sadiq IPTV</strong> — مشروع مفتوح المصدر بإذن الله 🤍
+  </p>
+  <p>
+    <a href="https://github.com/sdqjrd/sadiq-iptv" target="_blank">GitHub ⭐</a>
+    &nbsp;·&nbsp;
+    نسأل الله أن يجعل هذا العمل صدقة جارية لكل من أسهم فيه
+  </p>
+  <p style="margin-top:10px;font-size:12px">استخدم هذا التطبيق بما يرضي الله — ابتعد عن كل ما حرّم الله</p>
 </footer>
 
+<!-- AUDIO -->
+<audio id="q-audio" preload="none"></audio>
+
 <script>
-  // Glow follows cursor
-  const glow = document.getElementById('glow');
-  document.addEventListener('mousemove', e => {
-    glow.style.left = (e.clientX - 300) + 'px';
-    glow.style.top = (e.clientY - 300) + 'px';
-  });
+// ════════ QURAN ════════
+const stations=[
+  {name:'إذاعة القرآن الكريم – مكة المكرمة',   url:'https://Qurango.net/radio/tarateel'},
+  {name:'إذاعة القرآن الكريم – المدينة المنورة', url:'https://n07.radiojar.com/8s5u5tpdtwzuv?rj-ttl=5&rj-tok=AAABkh8XoGsA9JqFu3X7LGSSOA'},
+  {name:'تلاوة الشيخ عبد الباسط عبد الصمد',    url:'https://backup.qurango.net/radio/ahmed_el_3ajamy'},
+  {name:'إذاعة القرآن الكريم – مصر',           url:'https://stream.radiojar.com/0tpy1h0kxtzuv'},
+];
+const qAudio=document.getElementById('q-audio');
+const qPlayBtn=document.getElementById('qc-play');
+let qIdx=0,qOn=false,progT=null;
+qAudio.volume=.85;
+qAudio.src=stations[0].url;
 
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
-    });
-  });
+function selectSt(i,btn){
+  document.querySelectorAll('.st-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');qIdx=i;
+  document.getElementById('station-name').textContent=stations[i].name;
+  qAudio.src=stations[i].url;
+  if(qOn)qAudio.play().catch(()=>{});
+}
+function toggleQ(){
+  if(qOn){qAudio.pause();qPlayBtn.textContent='▶';qOn=false;clearInterval(progT);document.getElementById('station-status').textContent='موقوف مؤقتاً';}
+  else{
+    if(!qAudio.src)qAudio.src=stations[qIdx].url;
+    qAudio.play().then(()=>{
+      qPlayBtn.textContent='⏸';qOn=true;
+      document.getElementById('station-status').textContent='يعزف الآن 🎵';
+      let w=0;progT=setInterval(()=>{w=(w+.4)%100;document.getElementById('q-prog').style.width=w+'%';},300);
+    }).catch(()=>{document.getElementById('station-status').textContent='⚠️ تعذّر التشغيل — جرّب محطة أخرى';});
+  }
+}
+function prevSt(){const b=document.querySelectorAll('.st-btn');qIdx=(qIdx-1+stations.length)%stations.length;selectSt(qIdx,b[qIdx]);}
+function nextSt(){const b=document.querySelectorAll('.st-btn');qIdx=(qIdx+1)%stations.length;selectSt(qIdx,b[qIdx]);}
+qAudio.addEventListener('error',()=>{document.getElementById('station-status').textContent='⚠️ خطأ — جرّب محطة أخرى';qPlayBtn.textContent='▶';qOn=false;});
 
-  // Intersection observer for card animations
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.style.opacity = '1'; });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.feature-card, .platform-card, .step').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transition = 'opacity 0.5s ease, transform 0.3s ease';
-    observer.observe(el);
-  });
+// ════════ IPTV ════════
+const video=document.getElementById('video-player');
+let hlsInst=null,allChs=[],cUrl='',cUser='',cPass='';
+
+function getSaved(){try{return JSON.parse(localStorage.getItem('iptv_accs')||'[]');}catch{return[];}}
+function saveSaved(a){localStorage.setItem('iptv_accs',JSON.stringify(a));}
+function renderSaved(){
+  const a=getSaved(),wrap=document.getElementById('saved-wrap'),list=document.getElementById('saved-list');
+  if(!a.length){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  list.innerHTML=a.map((x,i)=>`<span class="acc-pill" onclick="loadAcc(${i})">🔑 ${x.user}@${x.short}<span class="del-acc" onclick="event.stopPropagation();delAcc(${i})">×</span></span>`).join('');
+}
+function loadAcc(i){const a=getSaved()[i];document.getElementById('inp-url').value=a.url;document.getElementById('inp-user').value=a.user;document.getElementById('inp-pass').value=a.pass;connectServer();}
+function delAcc(i){const a=getSaved();a.splice(i,1);saveSaved(a);renderSaved();}
+renderSaved();
+
+async function connectServer(){
+  const url=document.getElementById('inp-url').value.trim().replace(/\/+$/,'');
+  const user=document.getElementById('inp-user').value.trim();
+  const pass=document.getElementById('inp-pass').value.trim();
+  const errEl=document.getElementById('conn-err');
+  if(!url||!user||!pass){errEl.style.display='block';errEl.textContent='الرجاء ملء جميع الحقول.';return;}
+  const btn=document.getElementById('conn-btn');
+  btn.disabled=true;btn.textContent='⏳ جاري الاتصال…';errEl.style.display='none';
+  try{
+    const PROXY='/.netlify/functions/proxy?url=';
+    const apiBase=`${url}/player_api.php?username=${user}&password=${pass}`;
+    const r=await fetch(PROXY+encodeURIComponent(apiBase+'&action=get_live_streams'));
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const data=await r.json();
+    if(!Array.isArray(data)||!data.length)throw new Error('لا توجد قنوات أو بيانات خاطئة');
+    const short=url.replace(/^https?:\/\//,'').split('/')[0];
+    const accs=getSaved().filter(a=>!(a.url===url&&a.user===user));
+    accs.unshift({url,user,pass,short});saveSaved(accs.slice(0,8));
+    allChs=data;cUrl=url;cUser=user;cPass=pass;
+    document.getElementById('p-acc-name').textContent=`${user}@${short}`;
+    document.getElementById('iptv-login').style.display='none';
+    document.getElementById('iptv-player').style.display='block';
+    const cats=await fetch(PROXY+encodeURIComponent(apiBase+'&action=get_live_categories')).then(r=>r.json()).catch(()=>[]);
+    renderCats(cats);renderChs(data);
+  }catch(e){
+    errEl.style.display='block';errEl.textContent='تعذّر الاتصال: '+e.message;
+    btn.disabled=false;btn.textContent='اتصال ←';
+  }
+}
+function renderCats(cats){
+  const el=document.getElementById('p-cats');
+  el.innerHTML=`<button class="cat-btn active" onclick="filterCat('all',this)">الكل</button>`+
+    cats.slice(0,30).map(c=>`<button class="cat-btn" onclick="filterCat('${c.category_id}',this)">${c.category_name}</button>`).join('');
+}
+function filterCat(id,btn){
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  renderChs(id==='all'?allChs:allChs.filter(c=>c.category_id==id));
+}
+function filterChs(q){renderChs(allChs.filter(c=>c.name.toLowerCase().includes(q.toLowerCase())));}
+function renderChs(chs){
+  const el=document.getElementById('p-channels');
+  if(!chs.length){el.innerHTML='<div class="p-empty">لا توجد قنوات</div>';return;}
+  el.innerHTML=chs.slice(0,300).map(c=>`
+    <div class="ch-item" onclick="playChannel('${c.stream_id}','${c.name.replace(/'/g,"\\'")}','${c.stream_icon||''}')">
+      ${c.stream_icon?`<img class="ch-logo" src="${c.stream_icon}" onerror="this.style.display='none'" loading="lazy"/>`:`<div class="ch-logo-ph">📺</div>`}
+      <span class="ch-name">${c.name}</span>
+      <span class="ch-live">LIVE</span>
+    </div>`).join('');
+}
+function playChannel(id,name){
+  document.querySelectorAll('.ch-item').forEach(i=>i.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('p-ch-name').textContent=name;
+  document.getElementById('vid-overlay').classList.add('gone');
+  const streamUrl=`${cUrl}/live/${cUser}/${cPass}/${id}.m3u8`;
+  if(hlsInst){hlsInst.destroy();hlsInst=null;}
+  if(Hls.isSupported()){
+    hlsInst=new Hls();hlsInst.loadSource(streamUrl);hlsInst.attachMedia(video);
+    hlsInst.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>{}));
+    hlsInst.on(Hls.Events.ERROR,(_,d)=>{if(d.fatal){video.src=`${cUrl}/live/${cUser}/${cPass}/${id}.ts`;video.play().catch(()=>{});}});
+  }else if(video.canPlayType('application/vnd.apple.mpegurl')){
+    video.src=streamUrl;video.play().catch(()=>{});
+  }else{video.src=`${cUrl}/live/${cUser}/${cPass}/${id}.ts`;video.play().catch(()=>{});}
+}
+function toggleFS(){const w=document.querySelector('.p-video-wrap');if(!document.fullscreenElement)w.requestFullscreen().catch(()=>{});else document.exitFullscreen();}
+function disconnectServer(){
+  if(hlsInst){hlsInst.destroy();hlsInst=null;}video.src='';allChs=[];
+  document.getElementById('iptv-player').style.display='none';
+  document.getElementById('iptv-login').style.display='block';
+  document.getElementById('vid-overlay').classList.remove('gone');
+  document.getElementById('conn-btn').disabled=false;
+  document.getElementById('conn-btn').textContent='اتصال ←';
+  renderSaved();
+}
+
+// ════════ DUA ════════
+function loadDuas(){try{return JSON.parse(localStorage.getItem('duas')||'[]');}catch{return[];}}
+function saveDuas(d){localStorage.setItem('duas',JSON.stringify(d));}
+function renderDuas(){
+  const list=document.getElementById('dua-list');
+  const duas=loadDuas();
+  if(!duas.length){list.innerHTML='<div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">كن أول من يترك دعوة 🌸</div>';return;}
+  list.innerHTML=duas.map((d,i)=>`
+    <div class="dua-item">
+      <button class="dua-del" onclick="delDua(${i})">×</button>
+      <p>${d.text}</p>
+      <div class="dua-time">${d.time}</div>
+    </div>`).join('');
+}
+function sendDua(){
+  const inp=document.getElementById('dua-input');
+  const text=inp.value.trim();
+  if(!text)return;
+  const duas=loadDuas();
+  duas.unshift({text,time:new Date().toLocaleDateString('ar-SA',{year:'numeric',month:'long',day:'numeric'})});
+  saveDuas(duas.slice(0,50));
+  inp.value='';
+  renderDuas();
+  const ty=document.getElementById('dua-ty');
+  ty.style.display='block';setTimeout(()=>ty.style.display='none',3000);
+}
+function delDua(i){const d=loadDuas();d.splice(i,1);saveDuas(d);renderDuas();}
+renderDuas();
 </script>
 </body>
 </html>
