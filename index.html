@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sadiq IPTV – شاهد كل شيء</title>
+  <meta name="description" content="تطبيق IPTV احترافي يدعم Windows وAndroid وiOS مع واجهة عربية أنيقة وتشغيل سلس للقنوات والأفلام والمسلسلات." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple: #7C3AED;
+      --purple-light: #A855F7;
+      --purple-dark: #5B21B6;
+      --bg: #0A0A14;
+      --bg2: #12121F;
+      --bg3: #1A1A30;
+      --text: #F1F1F8;
+      --muted: #8888AA;
+      --border: #2A2A45;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(10,10,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 48px;
+    }
+    .logo {
+      font-size: 22px; font-weight: 900;
+      background: linear-gradient(135deg, var(--purple-light), #60A5FA);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--purple); color: #fff; border: none; border-radius: 8px;
+      padding: 9px 22px; font-size: 14px; font-family: 'Cairo', sans-serif;
+      cursor: pointer; font-weight: 700; transition: background .2s;
+    }
+    .nav-cta:hover { background: var(--purple-dark); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 70%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.4);
+      border-radius: 100px; padding: 6px 18px; font-size: 13px; color: var(--purple-light);
+      margin-bottom: 28px;
+    }
+    .hero-badge span { width: 8px; height: 8px; border-radius: 50%; background: var(--purple-light); animation: pulse 1.5s infinite; display: inline-block; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 72px); font-weight: 900; line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    h1 .grad {
+      background: linear-gradient(135deg, #A855F7 0%, #60A5FA 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 19px); color: var(--muted);
+      max-width: 560px; line-height: 1.7; margin-bottom: 40px;
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+    .btn-primary {
+      display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      color: #fff; border-radius: 10px; padding: 14px 28px;
+      font-size: 15px; font-weight: 700; font-family: 'Cairo', sans-serif;
+      text-decoration: none; transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 24px rgba(124,58,237,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,58,237,0.5); }
+    .btn-secondary {
+      display: flex; align-items: center; gap: 10px;
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 28px; font-size: 15px; font-weight: 600;
+      font-family: 'Cairo', sans-serif; text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-secondary:hover { border-color: var(--purple-light); background: rgba(124,58,237,0.08); }
+
+    /* ── MOCKUP ── */
+    .mockup-wrap {
+      margin-top: 64px; width: 100%; max-width: 900px;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.15);
+    }
+    .mockup-bar {
+      background: var(--bg3); padding: 10px 16px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .d-red { background: #FF5F57; } .d-yellow { background: #FFBD2E; } .d-green { background: #28C840; }
+    .mockup-screen {
+      background: var(--bg2); aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px; color: var(--muted); font-size: 14px;
+    }
+    .mockup-screen .play-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      display: flex; align-items: center; justify-content: center; font-size: 28px;
+      box-shadow: 0 8px 32px rgba(124,58,237,0.4);
+    }
+
+    /* ── STATS ── */
+    .stats {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 40px;
+      padding: 40px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 36px; font-weight: 900; color: var(--purple-light); }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* ── FEATURES ── */
+    .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--purple-light); text-transform: uppercase; margin-bottom: 12px; }
+    .section-title { font-size: clamp(26px, 4vw, 40px); font-weight: 900; margin-bottom: 16px; }
+    .section-sub { color: var(--muted); font-size: 16px; max-width: 500px; line-height: 1.7; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 48px; }
+    .feature-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 14px;
+      padding: 28px; transition: border-color .2s, transform .2s;
+    }
+    .feature-card:hover { border-color: rgba(124,58,237,0.5); transform: translateY(-4px); }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(124,58,237,0.15); display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* ── DOWNLOAD ── */
+    .download-section {
+      background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 80px 24px;
+    }
+    .download-inner { max-width: 1000px; margin: 0 auto; }
+    .platforms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 48px; }
+    .platform-card {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 14px;
+      padding: 28px 24px; text-align: center; transition: border-color .2s, transform .2s;
+    }
+    .platform-card:hover { border-color: rgba(124,58,237,0.5); transform: translateY(-4px); }
+    .platform-icon { font-size: 42px; margin-bottom: 12px; }
+    .platform-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .platform-card p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+    .platform-card .status-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700;
+    }
+    .badge-available { background: rgba(34,197,94,0.15); color: #4ADE80; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-soon { background: rgba(234,179,8,0.15); color: #FACC15; border: 1px solid rgba(234,179,8,0.3); }
+    .download-btn {
+      display: block; margin-top: 16px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      color: #fff; border-radius: 8px; padding: 11px 20px;
+      font-size: 14px; font-weight: 700; font-family: 'Cairo', sans-serif;
+      text-decoration: none; transition: opacity .2s;
+    }
+    .download-btn:hover { opacity: .85; }
+    .download-btn.disabled { background: var(--border); color: var(--muted); cursor: not-allowed; pointer-events: none; }
+
+    /* ── STEPS ── */
+    .steps { display: flex; flex-direction: column; gap: 20px; margin-top: 48px; }
+    .step { display: flex; gap: 20px; align-items: flex-start; }
+    .step-num {
+      min-width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 16px; flex-shrink: 0;
+    }
+    .step-content h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .step-content p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 40px 48px; display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    footer .logo { font-size: 18px; }
+    footer p { font-size: 13px; color: var(--muted); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── GLOW ── */
+    .glow-orb {
+      position: fixed; width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+      pointer-events: none; z-index: 0; transition: all 0.8s ease;
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 12px 20px; }
+      .nav-links { display: none; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Moving glow -->
+<div class="glow-orb" id="glow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">⚡ Sadiq IPTV</div>
+  <ul class="nav-links">
+    <li><a href="#features">المميزات</a></li>
+    <li><a href="#download">التحميل</a></li>
+    <li><a href="#setup">الإعداد</a></li>
+    <li><a href="https://github.com/YOUR_USERNAME/sadiq-iptv" target="_blank">GitHub</a></li>
+  </ul>
+  <a href="#download" class="nav-cta">حمّل الآن</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span></span>
+    متاح الآن على جميع المنصات
+  </div>
+  <h1>
+    شاهد كل شيء<br/>
+    <span class="grad">بجودة لا تُضاهى</span>
+  </h1>
+  <p class="hero-sub">
+    تطبيق IPTV احترافي بواجهة عربية أنيقة — قنوات بث مباشر، أفلام، مسلسلات،
+    مع دعم حسابات متعددة وتشغيل سلس على جميع الأجهزة.
+  </p>
+  <div class="hero-btns">
+    <a href="#download" class="btn-primary">
+      ⬇️ تحميل مجاني
+    </a>
+    <a href="https://github.com/YOUR_USERNAME/sadiq-iptv" target="_blank" class="btn-secondary">
+      ⭐ GitHub
+    </a>
+  </div>
+
+  <div class="mockup-wrap">
+    <div class="mockup-bar">
+      <div class="dot d-red"></div>
+      <div class="dot d-yellow"></div>
+      <div class="dot d-green"></div>
+      <div style="margin-right:auto;font-size:12px;color:#555">Sadiq IPTV — بث مباشر</div>
+    </div>
+    <div class="mockup-screen">
+      <div class="play-icon">▶</div>
+      <p>واجهة تطبيق احترافية مع مشغّل متكامل</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">4</div><div class="stat-label">منصات مدعومة</div></div>
+  <div class="stat"><div class="stat-num">∞</div><div class="stat-label">قنوات وأفلام</div></div>
+  <div class="stat"><div class="stat-num">4K</div><div class="stat-label">جودة تشغيل</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">مجاني ومفتوح المصدر</div></div>
+</div>
+
+<!-- FEATURES -->
+<div id="features">
+  <div class="section">
+    <div class="section-label">المميزات</div>
+    <h2 class="section-title">كل ما تحتاجه في مكان واحد</h2>
+    <p class="section-sub">مُصمَّم للمستخدم العربي مع واجهة RTL احترافية وأداء عالٍ.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📺</div>
+        <h3>بث مباشر HD</h3>
+        <p>تشغيل آلاف القنوات بجودة عالية مع دعم HLS وMPEG-TS.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎬</div>
+        <h3>أفلام ومسلسلات</h3>
+        <p>مكتبة ترفيهية ضخمة منظّمة بحسب التصنيف مع صور الغلاف والتفاصيل.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>حسابات متعددة</h3>
+        <p>احفظ أكثر من حساب Xtream وانتقل بينها بنقرة واحدة.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <h3>المفضلة والسجل</h3>
+        <p>أضف قنواتك وأفلامك المفضلة وتتبّع سجل المشاهدة بسهولة.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <h3>بحث سريع</h3>
+        <p>ابحث عن أي قناة أو فيلم أو مسلسل في ثوانٍ.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⌨️</div>
+        <h3>اختصارات لوحة المفاتيح</h3>
+        <p>تحكّم كامل بالمشغّل من لوحة المفاتيح: مسافة، أسهم، ESC.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOWNLOAD -->
+<div class="download-section" id="download">
+  <div class="download-inner">
+    <div class="section-label">التحميل</div>
+    <h2 class="section-title">اختر منصتك</h2>
+    <p class="section-sub">نسخة محسّنة لكل نظام تشغيل.</p>
+    <div class="platforms-grid">
+      <div class="platform-card">
+        <div class="platform-icon">🖥️</div>
+        <h3>Windows</h3>
+        <p>Windows 10/11 (64-bit)</p>
+        <span class="status-badge badge-available">✓ متاح</span>
+        <a href="https://github.com/YOUR_USERNAME/sadiq-iptv/releases/latest/download/sadiq_iptv_windows.zip" class="download-btn">⬇️ تحميل .exe</a>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">🤖</div>
+        <h3>Android</h3>
+        <p>Android 6.0 أو أحدث</p>
+        <span class="status-badge badge-available">✓ متاح</span>
+        <a href="https://github.com/YOUR_USERNAME/sadiq-iptv/releases/latest/download/sadiq_iptv.apk" class="download-btn">⬇️ تحميل APK</a>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">🍎</div>
+        <h3>iOS / iPhone</h3>
+        <p>iOS 13 أو أحدث</p>
+        <span class="status-badge badge-soon">🔜 قريباً</span>
+        <a href="#" class="download-btn disabled">قريباً على TestFlight</a>
+      </div>
+      <div class="platform-card">
+        <div class="platform-icon">🐧</div>
+        <h3>Linux</h3>
+        <p>Ubuntu / Debian</p>
+        <span class="status-badge badge-soon">🔜 قريباً</span>
+        <a href="#" class="download-btn disabled">قريباً</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="setup">
+  <div class="section">
+    <div class="section-label">الإعداد</div>
+    <h2 class="section-title">ابدأ خلال دقيقتين</h2>
+    <p class="section-sub">ثلاث خطوات بسيطة وتبدأ المشاهدة فوراً.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>حمّل التطبيق</h4>
+          <p>اختر نسخة منصتك من القسم أعلاه وحمّل الملف المناسب.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>أدخل بيانات Xtream</h4>
+          <p>أدخل رابط الخادم واسم المستخدم وكلمة المرور من مزوّد الخدمة الخاص بك.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>استمتع بالمشاهدة!</h4>
+          <p>تصفّح القنوات والأفلام والمسلسلات واستمتع بتجربة مشاهدة لا مثيل لها.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">⚡ Sadiq IPTV</div>
+  <p>© 2025 Sadiq IPTV. مفتوح المصدر تحت رخصة MIT.</p>
+  <div class="footer-links">
+    <a href="https://github.com/YOUR_USERNAME/sadiq-iptv" target="_blank">GitHub</a>
+    <a href="https://github.com/YOUR_USERNAME/sadiq-iptv/releases" target="_blank">الإصدارات</a>
+    <a href="https://github.com/YOUR_USERNAME/sadiq-iptv/issues" target="_blank">الإبلاغ عن مشكلة</a>
+  </div>
+</footer>
+
+<script>
+  // Glow follows cursor
+  const glow = document.getElementById('glow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = (e.clientX - 300) + 'px';
+    glow.style.top = (e.clientY - 300) + 'px';
+  });
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+
+  // Intersection observer for card animations
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.style.opacity = '1'; });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.feature-card, .platform-card, .step').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transition = 'opacity 0.5s ease, transform 0.3s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
